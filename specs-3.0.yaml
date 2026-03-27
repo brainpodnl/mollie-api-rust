@@ -31359,7 +31359,7 @@ components:
 
 
             Possible values: `... days`, `... weeks`, `... months`.
-          pattern: ^(\d+) (months|weeks|days)$
+          pattern: ^(\d+) (months?|weeks?|days?)$
           example: 12 months
         amount:
           $ref: '#/components/schemas/amount'
@@ -32609,8 +32609,6 @@ components:
               example: ...
               x-methodSpecific: true
               nullable: true
-            sellerProtection:
-              $ref: '#/components/schemas/payment-details-seller-protection'
             paypalFee:
               $ref: '#/components/schemas/amount-nullable'
             customerReference:
@@ -35968,7 +35966,7 @@ components:
 
 
             Possible values: `... days`, `... weeks`, `... months`.
-          pattern: ^\d+ (days|weeks|months)$
+          pattern: ^\d+ (days?|weeks?|months?)$
           example: 2 days
         startDate:
           type: string
@@ -36066,7 +36064,6 @@ components:
             - self
             - profile
             - customer
-            - documentation
           properties:
             self:
               $ref: '#/components/schemas/url'
@@ -36137,7 +36134,7 @@ components:
 
 
             Possible values: `... days`, `... weeks`, `... months`.
-          pattern: ^\d+ (days|weeks|months)$
+          pattern: ^\d+ (days?|weeks?|months?)$
           example: 2 days
         startDate:
           type: string
@@ -36208,8 +36205,6 @@ components:
             well. Be sure to verify the payment's subscription ID and its
             status.
           example: https://example.com/webhook
-        customerId:
-          $ref: '#/components/schemas/customerToken'
         mandateId:
           $ref: '#/components/schemas/mandateToken'
         createdAt:
@@ -37378,8 +37373,6 @@ components:
               example: ...
               x-methodSpecific: true
               nullable: true
-            sellerProtection:
-              $ref: '#/components/schemas/payment-details-seller-protection-response'
             paypalFee:
               $ref: '#/components/schemas/amount-nullable'
             customerReference:

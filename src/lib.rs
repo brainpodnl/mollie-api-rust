@@ -19329,10 +19329,6 @@ pub mod types {
     ///          "type": "string",
     ///          "x-methodSpecific": true
     ///        },
-    ///        "sellerProtection": {
-    ///          "$ref":
-    /// "#/components/schemas/payment-details-seller-protection"
-    ///        },
     ///        "shippingAddress": {
     ///          "description": "For wallet payment methods — such as Apple Pay
     /// and PayPal — the shipping address is often already known by the\nwallet
@@ -21058,9 +21054,6 @@ pub mod types {
     ///      "type": "string",
     ///      "x-methodSpecific": true
     ///    },
-    ///    "sellerProtection": {
-    ///      "$ref": "#/components/schemas/payment-details-seller-protection"
-    ///    },
     ///    "shippingAddress": {
     ///      "description": "For wallet payment methods — such as Apple Pay and
     /// PayPal — the shipping address is often already known by the\nwallet
@@ -21442,12 +21435,6 @@ pub mod types {
             skip_serializing_if = "::std::option::Option::is_none"
         )]
         pub remainder_method: ::std::option::Option<::std::string::String>,
-        #[serde(
-            rename = "sellerProtection",
-            default,
-            skip_serializing_if = "::std::option::Option::is_none"
-        )]
-        pub seller_protection: ::std::option::Option<PaymentDetailsSellerProtection>,
         ///For wallet payment methods — such as Apple Pay and PayPal — the
         /// shipping address is often already known by the
         /// wallet provider. In these cases the shipping address may be
@@ -21551,7 +21538,6 @@ pub mod types {
                 remainder_amount: Default::default(),
                 remainder_details: Default::default(),
                 remainder_method: Default::default(),
-                seller_protection: Default::default(),
                 shipping_address: Default::default(),
                 signature_date: Default::default(),
                 terminal_id: Default::default(),
@@ -23478,10 +23464,6 @@ pub mod types {
     ///          "type": "string",
     ///          "x-methodSpecific": true
     ///        },
-    ///        "sellerProtection": {
-    ///          "$ref":
-    /// "#/components/schemas/payment-details-seller-protection-response"
-    ///        },
     ///        "shippingAddress": {
     ///          "description": "For wallet payment methods — such as Apple Pay
     /// and PayPal — the shipping address is often already known by the\nwallet
@@ -25223,10 +25205,6 @@ pub mod types {
     ///      "type": "string",
     ///      "x-methodSpecific": true
     ///    },
-    ///    "sellerProtection": {
-    ///      "$ref":
-    /// "#/components/schemas/payment-details-seller-protection-response"
-    ///    },
     ///    "shippingAddress": {
     ///      "description": "For wallet payment methods — such as Apple Pay and
     /// PayPal — the shipping address is often already known by the\nwallet
@@ -25608,12 +25586,6 @@ pub mod types {
             skip_serializing_if = "::std::option::Option::is_none"
         )]
         pub remainder_method: ::std::option::Option<::std::string::String>,
-        #[serde(
-            rename = "sellerProtection",
-            default,
-            skip_serializing_if = "::std::option::Option::is_none"
-        )]
-        pub seller_protection: ::std::option::Option<PaymentDetailsSellerProtectionResponse>,
         ///For wallet payment methods — such as Apple Pay and PayPal — the
         /// shipping address is often already known by the
         /// wallet provider. In these cases the shipping address may be
@@ -25717,7 +25689,6 @@ pub mod types {
                 remainder_amount: Default::default(),
                 remainder_details: Default::default(),
                 remainder_method: Default::default(),
-                seller_protection: Default::default(),
                 shipping_address: Default::default(),
                 signature_date: Default::default(),
                 terminal_id: Default::default(),
@@ -31172,7 +31143,6 @@ pub mod types {
     ///      "type": "object",
     ///      "required": [
     ///        "customer",
-    ///        "documentation",
     ///        "profile",
     ///        "self"
     ///      ],
@@ -31266,7 +31236,7 @@ pub mod types {
     ///        "2 days"
     ///      ],
     ///      "type": "string",
-    ///      "pattern": "^\\d+ (days|weeks|months)$"
+    ///      "pattern": "^\\d+ (days?|weeks?|months?)$"
     ///    },
     ///    "mandateId": {
     ///      "$ref": "#/components/schemas/mandateToken"
@@ -31581,7 +31551,7 @@ pub mod types {
     ///    "2 days"
     ///  ],
     ///  "type": "string",
-    ///  "pattern": "^\\d+ (days|weeks|months)$"
+    ///  "pattern": "^\\d+ (days?|weeks?|months?)$"
     ///}
     /// ```
     /// </details>
@@ -31612,10 +31582,10 @@ pub mod types {
         fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
             static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
                 ::std::sync::LazyLock::new(|| {
-                    ::regress::Regex::new("^\\d+ (days|weeks|months)$").unwrap()
+                    ::regress::Regex::new("^\\d+ (days?|weeks?|months?)$").unwrap()
                 });
             if PATTERN.find(value).is_none() {
-                return Err("doesn't match pattern \"^\\d+ (days|weeks|months)$\"".into());
+                return Err("doesn't match pattern \"^\\d+ (days?|weeks?|months?)$\"".into());
             }
             Ok(Self(value.to_string()))
         }
@@ -31672,7 +31642,6 @@ pub mod types {
     ///  "type": "object",
     ///  "required": [
     ///    "customer",
-    ///    "documentation",
     ///    "profile",
     ///    "self"
     ///  ],
@@ -31702,7 +31671,8 @@ pub mod types {
     #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug)]
     pub struct EntitySubscriptionLinks {
         pub customer: UrlNullable,
-        pub documentation: Url,
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub documentation: ::std::option::Option<Url>,
         #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
         pub mandate: ::std::option::Option<UrlNullable>,
         #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
@@ -50205,9 +50175,6 @@ pub mod types {
     ///      "type": "string",
     ///      "x-methodSpecific": true
     ///    },
-    ///    "sellerProtection": {
-    ///      "$ref": "#/components/schemas/payment-details-seller-protection"
-    ///    },
     ///    "shippingAddress": {
     ///      "description": "For wallet payment methods — such as Apple Pay and
     /// PayPal — the shipping address is often already known by the\nwallet
@@ -50589,12 +50556,6 @@ pub mod types {
             skip_serializing_if = "::std::option::Option::is_none"
         )]
         pub remainder_method: ::std::option::Option<::std::string::String>,
-        #[serde(
-            rename = "sellerProtection",
-            default,
-            skip_serializing_if = "::std::option::Option::is_none"
-        )]
-        pub seller_protection: ::std::option::Option<PaymentDetailsSellerProtection>,
         ///For wallet payment methods — such as Apple Pay and PayPal — the
         /// shipping address is often already known by the
         /// wallet provider. In these cases the shipping address may be
@@ -50698,7 +50659,6 @@ pub mod types {
                 remainder_amount: Default::default(),
                 remainder_details: Default::default(),
                 remainder_method: Default::default(),
-                seller_protection: Default::default(),
                 shipping_address: Default::default(),
                 signature_date: Default::default(),
                 terminal_id: Default::default(),
@@ -51875,7 +51835,7 @@ pub mod types {
     ///        "12 months"
     ///      ],
     ///      "type": "string",
-    ///      "pattern": "^(\\d+) (months|weeks|days)$"
+    ///      "pattern": "^(\\d+) (months?|weeks?|days?)$"
     ///    },
     ///    "startDate": {
     ///      "description": "The start date of the subscription if it does not
@@ -51949,7 +51909,7 @@ pub mod types {
     ///    "12 months"
     ///  ],
     ///  "type": "string",
-    ///  "pattern": "^(\\d+) (months|weeks|days)$"
+    ///  "pattern": "^(\\d+) (months?|weeks?|days?)$"
     ///}
     /// ```
     /// </details>
@@ -51980,10 +51940,10 @@ pub mod types {
         fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
             static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
                 ::std::sync::LazyLock::new(|| {
-                    ::regress::Regex::new("^(\\d+) (months|weeks|days)$").unwrap()
+                    ::regress::Regex::new("^(\\d+) (months?|weeks?|days?)$").unwrap()
                 });
             if PATTERN.find(value).is_none() {
-                return Err("doesn't match pattern \"^(\\d+) (months|weeks|days)$\"".into());
+                return Err("doesn't match pattern \"^(\\d+) (months?|weeks?|days?)$\"".into());
             }
             Ok(Self(value.to_string()))
         }
@@ -61012,9 +60972,6 @@ pub mod types {
     ///    "createdAt": {
     ///      "$ref": "#/components/schemas/created-at"
     ///    },
-    ///    "customerId": {
-    ///      "$ref": "#/components/schemas/customerToken"
-    ///    },
     ///    "description": {
     ///      "description": "The subscription's description will be used as the
     /// description of the resulting individual payments and so showing\nup on
@@ -61038,7 +60995,7 @@ pub mod types {
     ///        "2 days"
     ///      ],
     ///      "type": "string",
-    ///      "pattern": "^\\d+ (days|weeks|months)$"
+    ///      "pattern": "^\\d+ (days?|weeks?|months?)$"
     ///    },
     ///    "mandateId": {
     ///      "$ref": "#/components/schemas/mandateToken"
@@ -61153,12 +61110,6 @@ pub mod types {
             skip_serializing_if = "::std::option::Option::is_none"
         )]
         pub created_at: ::std::option::Option<CreatedAt>,
-        #[serde(
-            rename = "customerId",
-            default,
-            skip_serializing_if = "::std::option::Option::is_none"
-        )]
-        pub customer_id: ::std::option::Option<CustomerToken>,
         ///The subscription's description will be used as the description of
         /// the resulting individual payments and so showing
         /// up on the bank statement of the consumer.
@@ -61262,7 +61213,6 @@ pub mod types {
                 application_fee: Default::default(),
                 canceled_at: Default::default(),
                 created_at: Default::default(),
-                customer_id: Default::default(),
                 description: Default::default(),
                 id: Default::default(),
                 interval: Default::default(),
@@ -61354,7 +61304,7 @@ pub mod types {
     ///    "2 days"
     ///  ],
     ///  "type": "string",
-    ///  "pattern": "^\\d+ (days|weeks|months)$"
+    ///  "pattern": "^\\d+ (days?|weeks?|months?)$"
     ///}
     /// ```
     /// </details>
@@ -61385,10 +61335,10 @@ pub mod types {
         fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
             static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
                 ::std::sync::LazyLock::new(|| {
-                    ::regress::Regex::new("^\\d+ (days|weeks|months)$").unwrap()
+                    ::regress::Regex::new("^\\d+ (days?|weeks?|months?)$").unwrap()
                 });
             if PATTERN.find(value).is_none() {
-                return Err("doesn't match pattern \"^\\d+ (days|weeks|months)$\"".into());
+                return Err("doesn't match pattern \"^\\d+ (days?|weeks?|months?)$\"".into());
             }
             Ok(Self(value.to_string()))
         }
