@@ -56419,7 +56419,8 @@ pub mod types {
             skip_serializing_if = "::std::option::Option::is_none"
         )]
         pub given_name: ::std::option::Option<::std::string::String>,
-        pub locale: SalesInvoiceRecipientLocaleResponse,
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub locale: ::std::option::Option<SalesInvoiceRecipientLocaleResponse>,
         ///The trading name of the `business` type recipient.
         #[serde(
             rename = "organizationName",
