@@ -56855,6 +56855,14 @@ pub mod types {
         Issued,
         #[serde(rename = "paid")]
         Paid,
+        /// Returned by Mollie when a SEPA mandate charge is initiated and the
+        /// payment has not yet settled (undocumented but observed in practice).
+        #[serde(rename = "pending-payment")]
+        PendingPayment,
+        /// Returned for invoices that were issued and then canceled via the
+        /// Mollie dashboard.
+        #[serde(rename = "canceled")]
+        Canceled,
     }
 
     impl ::std::convert::From<&Self> for SalesInvoiceStatusResponse {
@@ -56869,6 +56877,8 @@ pub mod types {
                 Self::Draft => f.write_str("draft"),
                 Self::Issued => f.write_str("issued"),
                 Self::Paid => f.write_str("paid"),
+                Self::PendingPayment => f.write_str("pending-payment"),
+                Self::Canceled => f.write_str("canceled"),
             }
         }
     }
@@ -56880,6 +56890,8 @@ pub mod types {
                 "draft" => Ok(Self::Draft),
                 "issued" => Ok(Self::Issued),
                 "paid" => Ok(Self::Paid),
+                "pending-payment" => Ok(Self::PendingPayment),
+                "canceled" => Ok(Self::Canceled),
                 _ => Err("invalid value".into()),
             }
         }
